@@ -1,4 +1,5 @@
-library(ggplot2)
+library(tidyverse)
+library(latex2exp)
 
 #################################
 # Normal Distribution
@@ -100,3 +101,25 @@ ggplot(NULL, aes(x=c(-3,3))) +
   stat_function(fun=pnorm) +
   ylab("F(x)") +
   xlab("x")
+
+#################################
+# Statistical Estimation
+dnorm_func <- function(x){
+  y <- dnorm(x)
+  y[x < -1.96 | x > 1.96] <- NA
+  return(y)
+}
+
+ggplot(NULL, aes(x=c(-3, 3))) +
+  ggtitle("95%(from -1.96 to 1.96) at X~N(0,1), ") +
+  stat_function(fun=dnorm) +
+  stat_function(fun=dnorm_func, geom="area", fill="gray", alpha=0.5) +
+  ylab("y") + 
+  xlab("z") +
+  annotate(
+    geom = 'text',
+    x = 1, y = 0.3,
+    size=4,
+    label = TeX("\\int_{-1.96}^{1.96}f(z)dz")
+  )
+#latex2exp_examples()
