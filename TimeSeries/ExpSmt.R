@@ -13,7 +13,7 @@ plot.ts(logsouvenirtimeseries)
 souvenirtimeseriesforecasts <- HoltWinters(logsouvenirtimeseries)
 plot(souvenirtimeseriesforecasts)
 
-# Holt Winters Exponential Smoothing
+# Holt Winters Exponential Smoothing Forecasting
 souvenirtimeseriesforecasts2 <- forecast:::forecast.HoltWinters(souvenirtimeseriesforecasts, h=48)
 plot.forecast(souvenirtimeseriesforecasts2)
 plot(souvenirtimeseriesforecasts2)
