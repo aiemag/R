@@ -1,6 +1,7 @@
 library(tidyverse)
 library(latex2exp)
 
+
 #################################
 # Normal Distribution
 
@@ -12,7 +13,7 @@ ggplot(NULL, aes(x=x, y=..density..)) +
 
 # case 2
 x <- seq(-3, 3, length=200)
-ggplot(NULL, aes(x)) + 
+ggplot(data=data.frame(x), aes(x=x)) + 
   stat_function(fun=dnorm)
 
 # case 3
@@ -87,7 +88,9 @@ dnorm_func <- function(x){
   return(y)
 }
 
-ggplot(NULL, aes(x=c(-3, 3))) +
+dnorm(1)
+
+ggplot(data.frame(x=c(-3, 3)), aes(x=x)) +
   ggtitle("PDF(from 1 to 2) at X~N(0,1), ") +
   stat_function(fun=dnorm) +
   stat_function(fun=dnorm_func, geom="area", fill="gray", alpha=0.5) +
@@ -101,6 +104,42 @@ ggplot(NULL, aes(x=c(-3,3))) +
   stat_function(fun=pnorm) +
   ylab("F(x)") +
   xlab("x")
+
+
+#---------------------------------------------------
+#################################
+# PMF
+pmf_data = data.frame(x=c(1,2,3,4,5,6), y=c(1/6, 1/6, 1/6, 1/6, 1/6, 1/6))
+ggplot(data=pmf_data) +
+  ggtitle("PMF from 1 to 6") +
+  geom_point(aes(x, y)) +
+  geom_bar(stat='identity', width=0.02, aes(x,y)) +
+  scale_x_continuous(breaks=seq(0, 7, 1)) +
+  ylim(0, 0.2) +
+  ylab("f(x)") +
+  xlab("x") +
+  geom_text(aes(x=1, y=1.1/6, label = "1/6" ))
+
+
+#################################
+# CMF
+cmf_func <- function(x){
+  y <- x*1/6
+  return(y)
+}
+
+cmf_data = data.frame(x=c(1,2,3,4,5,6), y=cmf_func(c(1,2,3,4,5,6)))
+ggplot(data=cmf_data) +
+  ggtitle("CMF from 1 to 6") +
+  geom_point(aes(x, y)) +
+  geom_bar(stat='identity', width=0.02, aes(x,y)) +
+  scale_x_continuous(breaks=seq(0, 7, 1)) +
+  #ylim(0, 0.2) +
+  ylab("F(x)") +
+  xlab("x")
+  #geom_text(aes(x=1, y=1.2/6, label = "1/6" ))
+
+
 
 #################################
 # Statistical Estimation
